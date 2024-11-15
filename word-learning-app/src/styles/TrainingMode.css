@@ -1,25 +1,114 @@
-.letters-container {
+.training-mode {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.word-prompt {
+  text-align: center;
   margin: 20px 0;
 }
 
-.letters-container button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
+.keyboard-input {
+  margin: 20px 0;
 }
 
-.letters-container button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.keyboard-input input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1em;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+}
+
+.keyboard-input input.correct {
+  border-color: #4CAF50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.keyboard-input input.error {
+  border-color: #ff4444;
+  background-color: rgba(255, 68, 68, 0.1);
+  animation: shake 0.5s ease-in-out;
+}
+
+.letters-container {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  min-height: 60px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .selected-letters {
-  margin-top: 20px;
-  font-size: 1.2em;
-  min-height: 30px;
-  padding: 10px;
-  border: 1px dashed #ccc;
-} 
+  display: flex;
+  gap: 10px;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 200px;
+}
+
+.letter-tile {
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  font-size: 1.1em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.letter-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.answer-container {
+  width: 100%;
+  min-height: 60px;
+  padding: 15px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.word-correct {
+  animation: highlightSuccess 1s ease;
+}
+
+.word-error {
+  animation: highlightError 1s ease;
+}
+
+@keyframes highlightSuccess {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(76, 175, 80, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes highlightError {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(255, 68, 68, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
