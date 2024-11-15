@@ -1,17 +1,22 @@
 .app-container {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px;
 }
 
 h1 {
-  color: #333;
+  color: #2c3e50;
   text-align: center;
-  margin-bottom: 30px;
+  margin: 15px 0;
+  font-size: 2em;
 }
 
 .input-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 form {
@@ -22,50 +27,41 @@ form {
 }
 
 .word-input {
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
   flex: 1;
-  min-width: 200px;
-}
-
-.word-input:focus {
-  border-color: #007bff;
-  outline: none;
+  min-width: 150px;
 }
 
 .add-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+  padding: 8px 15px;
+  background: #3498db;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.add-button:hover {
-  background-color: #0056b3;
+  font-weight: 500;
 }
 
 .words-list {
-  margin-bottom: 30px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .words-list h2 {
-  color: #444;
-  margin-bottom: 15px;
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.2em;
 }
 
 .word-item {
-  padding: 10px;
+  padding: 8px 12px;
   background-color: #f8f9fa;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 5px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
 }

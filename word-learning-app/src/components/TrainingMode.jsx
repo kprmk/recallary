@@ -44,7 +44,8 @@ function TrainingMode({ words }) {
   // Обработка нажатия клавиш
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (!currentWord) return;
+      // Проверяем, что фокус не на элементах ввода
+      if (e.target.tagName === 'INPUT' || !currentWord) return;
 
       const pressedKey = e.key.toLowerCase();
       // Проверяем, есть ли такая буква среди доступных

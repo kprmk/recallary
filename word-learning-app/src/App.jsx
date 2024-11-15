@@ -44,6 +44,8 @@ function App() {
         </form>
       </div>
 
+      <TrainingMode words={words} />
+
       <div className="words-list">
         <h2>Добавленные слова:</h2>
         <ul>
@@ -54,8 +56,6 @@ function App() {
           ))}
         </ul>
       </div>
-
-      <TrainingMode words={words} />
     </div>
   )
 }
