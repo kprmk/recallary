@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../styles/TrainingMode.css';
+import { getRandomWords } from '../scripts/utils'; // Импортируем функцию
 
 function TrainingMode({ words }) {
   const [currentWord, setCurrentWord] = useState(null);
@@ -8,13 +9,6 @@ function TrainingMode({ words }) {
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  // Выбор случайного слова
-  const getRandomWord = () => {
-    if (words.length === 0) return null;
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
-  };
 
   // Перемешивание букв
   const shuffleWord = (word) => {
@@ -32,14 +26,15 @@ function TrainingMode({ words }) {
   };
 
   useEffect(() => {
-    const word = getRandomWord();
+    const randomWords = getRandomWords(words);
+    const word = randomWords.length > 0 ? randomWords[Math.floor(Math.random() * randomWords.length)] : null;
     setCurrentWord(word);
     if (word) {
       setShuffledLetters(shuffleWord(word.english));
     }
     setSelectedLetters([]);
     setIsCorrect(false);
-  }, [words]);
+  }, []); // Зависимость изменена на пустой массив, чтобы использовать только по умолчанию
 
   // Обработка нажатия клавиш
   useEffect(() => {
@@ -104,7 +99,7 @@ function TrainingMode({ words }) {
   const handleCorrectAnswer = () => {
     setIsCorrect(true);
     setTimeout(() => {
-      const newWord = getRandomWord();
+      const newWord = getRandomWords(words);
       setCurrentWord(newWord);
       if (newWord) {
         setShuffledLetters(shuffleWord(newWord.english));
@@ -152,9 +147,9 @@ function TrainingMode({ words }) {
 
   return (
     <div className="training-mode">
-      <h2>Тренировка</h2>
+      <h2>Train</h2>
       <div className="word-prompt">
-        <p>Переведите слово: <strong>{currentWord.russian}</strong></p>
+        <p>Translate: <strong>{currentWord.russian}</strong></p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>

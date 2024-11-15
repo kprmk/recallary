@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import TrainingMode from './components/TrainingMode'
 import './styles/App.css'
+import { getRandomWords } from './scripts/utils'
 
 function App() {
   const [englishWord, setEnglishWord] = useState('')
   const [russianWord, setRussianWord] = useState('')
   const [words, setWords] = useState([
+    { english: 'monday', russian: 'понедельник' },
+    { english: 'morning', russian: 'утро' },
     { english: 'apple', russian: 'яблоко' },
     { english: 'strawberry', russian: 'клубника' },
-    { english: 'bus', russian: 'автобус' }
+    { english: 'summer', russian: 'лето' },
+    { english: 'bus', russian: 'автобус' },
+    { english: 'deer', russian: 'олень' },
   ])
 
   const handleSubmit = (e) => {
@@ -22,7 +27,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Изучение слов</h1>
+      <h1>Recallary 📝🧐</h1>
       
       <div className="input-section">
         <form onSubmit={handleSubmit}>
@@ -30,26 +35,26 @@ function App() {
             type="text"
             value={englishWord}
             onChange={(e) => setEnglishWord(e.target.value)}
-            placeholder="Английское слово"
+            placeholder="Eng"
             className="word-input"
           />
           <input
             type="text"
             value={russianWord}
             onChange={(e) => setRussianWord(e.target.value)}
-            placeholder="Русское слово"
+            placeholder="Rus"
             className="word-input"
           />
-          <button type="submit" className="add-button">Добавить</button>
+          <button type="submit" className="add-button">Add</button>
         </form>
       </div>
 
       <TrainingMode words={words} />
 
       <div className="words-list">
-        <h2>Добавленные слова:</h2>
+        <h2>Random 5 words from total { words.length }:</h2>
         <ul>
-          {words.map((word, index) => (
+          {getRandomWords(words).map((word, index) => (
             <li key={index} className="word-item">
               {word.english} - {word.russian}
             </li>
