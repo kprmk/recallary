@@ -99,13 +99,14 @@ function TrainingMode({ words }) {
   const handleCorrectAnswer = () => {
     setIsCorrect(true);
     setTimeout(() => {
-      const newWord = getRandomWords(words);
-      setCurrentWord(newWord);
-      if (newWord) {
-        setShuffledLetters(shuffleWord(newWord.english));
-      }
-      setSelectedLetters([]);
-      setIsCorrect(false);
+        // Изменено на выбор одного случайного слова из массива words
+        const newWord = words[Math.floor(Math.random() * words.length)];
+        setCurrentWord(newWord);
+        if (newWord) {
+            setShuffledLetters(shuffleWord(newWord.english));
+        }
+        setSelectedLetters([]);
+        setIsCorrect(false);
     }, 1000);
   };
 
