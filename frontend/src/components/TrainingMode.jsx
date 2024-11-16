@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../styles/TrainingMode.css';
 import { getRandomWords } from '../scripts/utils'; // Импортируем функцию
 
-function TrainingMode({ words }) {
+const TrainingMode = ({ words = [] }) => {
   const [currentWord, setCurrentWord] = useState(null);
   const [shuffledLetters, setShuffledLetters] = useState([]);
   const [selectedLetters, setSelectedLetters] = useState([]);
@@ -12,7 +12,13 @@ function TrainingMode({ words }) {
 
   // Перемешивание букв
   const shuffleWord = (word) => {
-    const letters = word.split('').map((letter, index) => ({
+    if (!word) {
+      console.error('Передано недопустимое слово:', word); // Добавлено для отладки
+      return ''; // Возвращаем пустую строку, если слово недопустимо
+    }
+    
+    const wordArray = word.split(''); // Здесь может возникнуть ошибка, если word undefined
+    const letters = wordArray.map((letter, index) => ({
       id: `${letter}-${index}`,
       content: letter
     }));
@@ -30,11 +36,11 @@ function TrainingMode({ words }) {
     const word = randomWords.length > 0 ? randomWords[Math.floor(Math.random() * randomWords.length)] : null;
     setCurrentWord(word);
     if (word) {
-      setShuffledLetters(shuffleWord(word.english));
+      setShuffledLetters(shuffleWord(word.word));
     }
     setSelectedLetters([]);
     setIsCorrect(false);
-  }, []); // Зависимость изменена на пустой массив, чтобы использовать только по умолчанию
+  }, [words]);
 
   // Обработка нажатия клавиш
   useEffect(() => {
@@ -65,7 +71,7 @@ function TrainingMode({ words }) {
     setIsError(true);
     // Возвращаем все буквы обратно
     const allLetters = [...shuffledLetters, ...selectedLetters];
-    setShuffledLetters(shuffleWord(currentWord.english));
+    setShuffledLetters(shuffleWord(currentWord.word));
     setSelectedLetters([]);
     setTimeout(() => setIsError(false), 1500);
   };
@@ -81,7 +87,7 @@ function TrainingMode({ words }) {
     setSelectedLetters(newSelected);
     
     const composedWord = newSelected.map(l => l.content).join('').toLowerCase();
-    const targetWord = currentWord.english.toLowerCase();
+    const targetWord = currentWord.word.toLowerCase();
     
     // Проверяем, является ли текущая последовательность началом целевого слова
     if (!targetWord.startsWith(composedWord)) {
@@ -103,7 +109,7 @@ function TrainingMode({ words }) {
         const newWord = words[Math.floor(Math.random() * words.length)];
         setCurrentWord(newWord);
         if (newWord) {
-            setShuffledLetters(shuffleWord(newWord.english));
+            setShuffledLetters(shuffleWord(newWord.word));
         }
         setSelectedLetters([]);
         setIsCorrect(false);
@@ -120,7 +126,7 @@ function TrainingMode({ words }) {
       const letter = shuffledLetters[source.index];
       const newSelected = [...selectedLetters, letter];
       const composedWord = newSelected.map(l => l.content).join('').toLowerCase();
-      const targetWord = currentWord.english.toLowerCase();
+      const targetWord = currentWord.word.toLowerCase();
 
       // Проверяем, является ли текущая последовательность началом целевого слова
       if (!targetWord.startsWith(composedWord)) {
@@ -150,7 +156,7 @@ function TrainingMode({ words }) {
     <div className="training-mode">
       <h2>Train</h2>
       <div className="word-prompt">
-        <p>Translate: <strong>{currentWord.russian}</strong></p>
+        <p>Translate: <strong>{currentWord.translation}</strong></p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
