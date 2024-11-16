@@ -154,9 +154,8 @@ const TrainingMode = ({ words = [] }) => {
 
   return (
     <div className="training-mode">
-      <h2>Train</h2>
       <div className="word-prompt">
-        <p>Translate: <strong>{currentWord.translation}</strong></p>
+        <h3>Train: <strong>{currentWord.translation}</strong></h3>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>

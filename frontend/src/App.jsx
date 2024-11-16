@@ -79,52 +79,56 @@ function App() {
   );
 
   return (
-    <div className="app-container">
+    <>
       <h1>Recallary 📝🧐</h1>
-      
-      <div className="input-section">
-        <form onSubmit={handleSubmit}>
+      <div className="app-container" style={{ display: 'flex' }}>
+        <div className="input-section" style={{ flex: 2 }}>
+          <h3>Add word</h3>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={word}
+              onChange={(e) => setWord(e.target.value)}
+              placeholder="Word"
+              className="word-input"
+            />
+            <input
+              type="text"
+              value={translation}
+              onChange={(e) => setTranslation(e.target.value)}
+              placeholder="Translation"
+              className="word-input"
+            />
+            <button type="submit" className="add-button">Add</button>
+          </form>
+          <h3>Vocab search (Total words: { displayedWords.length })</h3>
           <input
             type="text"
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
-            placeholder="Word"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="search"
             className="word-input"
           />
-          <input
-            type="text"
-            value={translation}
-            onChange={(e) => setTranslation(e.target.value)}
-            placeholder="Translation"
-            className="word-input"
-          />
-          <button type="submit" className="add-button">Add</button>
-        </form>
+          <ul>
+            {filteredDisplayedWords.map((item, index) => (
+              <li key={index} className="word-item">
+                {item.word} - {item.translation}
+                <button
+                  onClick={() => handleDelete(item)}
+                  className="delete-button"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em', marginLeft: '10px' }}
+                >
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ flex: 3 }}>
+          <TrainingMode words={vocab} />
+        </div>
       </div>
-
-      <TrainingMode words={vocab} />
-
-      <div className="words-list">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search words"
-          className="word-input"
-        />
-        <h2>Random 5 words from total { displayedWords.length }:</h2>
-        <ul>
-          {filteredDisplayedWords.map((item, index) => (
-            <li key={index} className="word-item">
-              {item.word} - {item.translation}
-              <button onClick={() => handleDelete(item)} className="delete-button" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em', marginLeft: '10px' }}>
-                ❌
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </>
   )
 }
 
