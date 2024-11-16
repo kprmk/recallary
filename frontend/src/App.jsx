@@ -81,8 +81,8 @@ function App() {
   return (
     <>
       <h1>Recallary 📝🧐</h1>
-      <div className="app-container" style={{ display: 'flex' }}>
-        <div className="input-section" style={{ flex: 2 }}>
+      <div className="app-container" style={{ display: 'flex', minWidth: '50vw', gap: '3vw' }}>
+        <div className="input-section" style={{ flex: 1 }}>
           <h3>Add word</h3>
           <form onSubmit={handleSubmit}>
             <input
@@ -101,7 +101,7 @@ function App() {
             />
             <button type="submit" className="add-button">Add</button>
           </form>
-          <h3>Vocab search (Total words: { displayedWords.length })</h3>
+          <h3>Vocab search (total words: { displayedWords.length })</h3>
           <input
             type="text"
             value={searchTerm}
@@ -109,14 +109,14 @@ function App() {
             placeholder="search"
             className="word-input"
           />
-          <ul>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
             {filteredDisplayedWords.map((item, index) => (
-              <li key={index} className="word-item">
-                {item.word} - {item.translation}
+              <li key={index} className="word-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                👉 {item.word} - {item.translation}
                 <button
                   onClick={() => handleDelete(item)}
                   className="delete-button"
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em', marginLeft: '10px' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em' }}
                 >
                   ❌
                 </button>
@@ -124,7 +124,7 @@ function App() {
             ))}
           </ul>
         </div>
-        <div style={{ flex: 3 }}>
+        <div style={{ flex: 1 }}>
           <TrainingMode words={vocab} />
         </div>
       </div>
