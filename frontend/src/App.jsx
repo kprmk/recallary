@@ -13,8 +13,8 @@ function App() {
   const [translation, setTranslation] = useState('')
   const [vocab, setVocab] = useState([])
   const [displayedWords, setDisplayedWords] = useState([])
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Определение функции fetchWords внутри компонента
   const fetchWords = async () => {
     try {
       const response = await fetch(`${backendUrl}/words`);
@@ -27,7 +27,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetchWords(); // Вызов функции здесь
+    fetchWords();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -53,14 +53,30 @@ function App() {
         console.error('Ошибка при отправке запроса:', error);
       }
 
-      // после добавления слова, очищаем поля ввода
       setWord('');
       setTranslation('');
-      
-      // Запрашиваем слова от сервера заново
-      await fetchWords(); // Теперь функция доступна
+      await fetchWords();
     }
   }
+
+  const handleDelete = async (wordToDelete) => {
+    try {
+      const response = await fetch(`${backendUrl}/word/${wordToDelete.id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        await fetchWords();
+      } else {
+        console.error('Ошибка при удалении слова:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Ошибка при отправке запроса:', error);
+    }
+  };
+
+  const filteredDisplayedWords = displayedWords.filter(item => 
+    item.word.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="app-container">
@@ -89,11 +105,21 @@ function App() {
       <TrainingMode words={vocab} />
 
       <div className="words-list">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search words"
+          className="word-input"
+        />
         <h2>Random 5 words from total { displayedWords.length }:</h2>
         <ul>
-          {displayedWords.map((item, index) => (
+          {filteredDisplayedWords.map((item, index) => (
             <li key={index} className="word-item">
               {item.word} - {item.translation}
+              <button onClick={() => handleDelete(item)} className="delete-button" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em', marginLeft: '10px' }}>
+                ❌
+              </button>
             </li>
           ))}
         </ul>

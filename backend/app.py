@@ -61,6 +61,17 @@ def get_words():
     return result
 
 
+@app.route('/word/<int:word_id>', methods=['DELETE'])
+def delete_word(word_id):
+    word_to_delete = Word.query.get(word_id)
+    if word_to_delete is None:
+        return jsonify({'message': 'Word not found!'}), 404
+
+    db.session.delete(word_to_delete)
+    db.session.commit()
+    return jsonify({'message': 'Word deleted successfully!'}), 200
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
