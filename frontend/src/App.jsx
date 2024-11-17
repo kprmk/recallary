@@ -1,7 +1,7 @@
 import './styles/App.css'
 import { useState, useEffect } from 'react'
 import TrainingMode from './components/TrainingMode'
-import { getRandomWords } from './scripts/utils'
+import { getRandomWords, get_word_repr } from './scripts/utils'
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 if (!backendUrl) {
@@ -112,7 +112,7 @@ function App() {
           <ul style={{ listStyleType: 'none', padding: 0 }}>
             {filteredDisplayedWords.map((item, index) => (
               <li key={index} className="word-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                👉 {item.word} - {item.translation}
+                { get_word_repr(item) }
                 <button
                   onClick={() => handleDelete(item)}
                   className="delete-button"

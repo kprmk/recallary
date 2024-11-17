@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../styles/TrainingMode.css';
-import { getRandomWords } from '../scripts/utils'; // Импортируем функцию
+import { getRandomWords, get_word_stats } from '../scripts/utils';
+
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+if (!backendUrl) {
+    console.error('Backend URL is not defined in environment variables');
+}
 
 const TrainingMode = ({ words = [] }) => {
   const [currentWord, setCurrentWord] = useState(null);
@@ -69,6 +75,27 @@ const TrainingMode = ({ words = [] }) => {
   // Обработка ошибки
   const handleError = () => {
     setIsError(true);
+
+    // upd incorrect counter
+    fetch(`${backendUrl}/word/${currentWord.id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        repetitions: {
+          incorrect: currentWord.repetitions.incorrect + 1,
+          correct: currentWord.repetitions.correct
+        }
+      })
+    })
+    .then(response => {
+      console.log('Слово обновлено:', response);
+    })
+    .catch(error => {
+      console.error('Ошибка при обновлении слова:', error);
+    });
+
     // Возвращаем все буквы обратно
     const allLetters = [...shuffledLetters, ...selectedLetters];
     setShuffledLetters(shuffleWord(currentWord.word));
@@ -104,6 +131,27 @@ const TrainingMode = ({ words = [] }) => {
   // Обработка правильного ответа
   const handleCorrectAnswer = () => {
     setIsCorrect(true);
+
+    // upd correct counter
+    fetch(`${backendUrl}/word/${currentWord.id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        repetitions: {
+            correct: currentWord.repetitions.correct + 1,
+            incorrect: currentWord.repetitions.incorrect
+        }
+      })
+    })
+    .then(response => {
+      console.log('Слово обновлено:', response);
+    })
+    .catch(error => {
+      console.error('Ошибка при обновлении слова:', error);
+    });
+
     setTimeout(() => {
         // Изменено на выбор одного случайного слова из массива words
         const newWord = words[Math.floor(Math.random() * words.length)];
@@ -156,6 +204,7 @@ const TrainingMode = ({ words = [] }) => {
     <div className="training-mode">
       <div className="word-prompt">
         <h3>Train: <strong>{currentWord.translation}</strong></h3>
+        <h5>Info: {get_word_stats(currentWord)}</h5>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>

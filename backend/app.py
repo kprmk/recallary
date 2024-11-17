@@ -72,6 +72,20 @@ def delete_word(word_id):
     return jsonify({'message': 'Word deleted successfully!'}), 200
 
 
+@app.route('/word/<int:word_id>', methods=['PUT'])
+def update_word(word_id):
+    data = request.get_json()
+    word_to_update = Word.query.get(word_id)
+    if word_to_update is None:
+        return jsonify({'message': 'Word not found!'}), 404
+
+    if 'repetitions' in data:
+        word_to_update.repetitions = data['repetitions']
+
+    db.session.commit()
+    return jsonify({'message': 'Word updated successfully!'}), 200
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
