@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../styles/TrainingMode.css';
-import { getRandomWords, get_word_stats } from '../scripts/utils';
+import { getRandomWords, getWordForTraining, get_word_stats } from '../scripts/utils';
 
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -38,8 +38,9 @@ const TrainingMode = ({ words = [] }) => {
   };
 
   useEffect(() => {
-    const randomWords = getRandomWords(words);
-    const word = randomWords.length > 0 ? randomWords[Math.floor(Math.random() * randomWords.length)] : null;
+    // const randomWords = getRandomWords(words);
+    // const word = randomWords.length > 0 ? randomWords[Math.floor(Math.random() * randomWords.length)] : null;
+    const word = getWordForTraining(words);
     setCurrentWord(word);
     if (word) {
       setShuffledLetters(shuffleWord(word.word));

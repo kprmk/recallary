@@ -63,7 +63,7 @@ def get_words():
 
 @app.route('/word/<int:word_id>', methods=['DELETE'])
 def delete_word(word_id):
-    word_to_delete = Word.query.get(word_id)
+    word_to_delete = db.session.get(Word, word_id)
     if word_to_delete is None:
         return jsonify({'message': 'Word not found!'}), 404
 
@@ -75,7 +75,7 @@ def delete_word(word_id):
 @app.route('/word/<int:word_id>', methods=['PUT'])
 def update_word(word_id):
     data = request.get_json()
-    word_to_update = Word.query.get(word_id)
+    word_to_update = db.session.get(Word, word_id)
     if word_to_update is None:
         return jsonify({'message': 'Word not found!'}), 404
 
@@ -91,12 +91,8 @@ if __name__ == '__main__':
         db.create_all()
         if Word.query.count() == 0:
             initial_words = [
-                {'word': 'monday', 'translation': 'понедельник'},
-                {'word': 'morning', 'translation': 'утро'},
                 {'word': 'apple', 'translation': 'яблоко'},
                 {'word': 'strawberry', 'translation': 'клубника'},
-                {'word': 'summer', 'translation': 'лето'},
-                {'word': 'bus', 'translation': 'автобус'},
                 {'word': 'deer', 'translation': 'олень'},
             ]
             for word in initial_words:
