@@ -81,8 +81,8 @@ function App() {
   return (
     <>
       <h1>Recallary 📝🧐</h1>
-      <div className="app-container" style={{ display: 'flex', minWidth: '50vw', gap: '3vw' }}>
-        <div className="input-section" style={{ flex: 1 }}>
+      <div className="app-container">
+        <div className="add-word-section">
           <h3>Add word</h3>
           <form onSubmit={handleSubmit}>
             <input
@@ -101,6 +101,8 @@ function App() {
             />
             <button type="submit" className="add-button">Add</button>
           </form>
+        </div>
+        <div className="vocab-section">
           <h3>Vocab search (total words: { displayedWords.length })</h3>
           <input
             type="text"
@@ -124,7 +126,7 @@ function App() {
             ))}
           </ul>
         </div>
-        <div style={{ flex: 1 }}>
+        <div className="training-section">
           <TrainingMode words={vocab} />
         </div>
       </div>

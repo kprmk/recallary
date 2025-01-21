@@ -1,6 +1,25 @@
 export const getRandomWords = (words) => {
-  const shuffledWords = words.sort(() => 0.5 - Math.random()); // Перемешиваем слова
-  return shuffledWords.slice(0, 5); // Возвращаем только первые 5 слов
+  // Разделяем слова на новые и изученные
+  const newWords = words.filter(word => 
+    (word.repetitions.correct + word.repetitions.incorrect) === 0
+  );
+
+  // Сортируем изученные слова по проценту правильных ответов (от худших к лучшим)
+  const studiedWords = words
+    .filter(word => (word.repetitions.correct + word.repetitions.incorrect) > 0)
+    .sort((a, b) => {
+      const aTotal = a.repetitions.correct + a.repetitions.incorrect;
+      const bTotal = b.repetitions.correct + b.repetitions.incorrect;
+      const aScore = a.repetitions.correct / aTotal;
+      const bScore = b.repetitions.correct / bTotal;
+      return aScore - bScore;
+    });
+
+  // Объединяем массивы: сначала новые слова, потом проблемные
+  const combinedWords = [...newWords, ...studiedWords];
+  
+  // Возвращаем первые 5 слов
+  return combinedWords.slice(0, 5);
 }; 
 
 export const getWordForTraining = (words) => {

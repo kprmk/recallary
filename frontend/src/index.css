@@ -4,12 +4,12 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #ffffff; /* Белый фон */
-  height: 100vh;
-  overflow: hidden; /* Скрыть прокрутку */
+  min-height: 100vh; /* Меняем height на min-height */
+  overflow-y: auto; /* Разрешаем вертикальный скроллинг */
 }
 
 #backgroundCanvas {
-  position: absolute;
+  position: fixed; /* Меняем absolute на fixed */
   top: 0;
   left: 0;
   width: 100%;
