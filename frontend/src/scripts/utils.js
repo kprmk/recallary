@@ -29,7 +29,7 @@ export const get_word_stats = (word) => {
   if (total === 0) {
     return result;
   }
-  return result + ` 🆗 ${corrects / total}`;
+  return result + ` 🆗 ${((corrects / total) * 100).toFixed(0)}%`;
 };
 
 export const get_word_repr = (word) => {
